@@ -19,16 +19,18 @@ if not 'VSINSTALLDIR' in env['MSVS']:
     print("SCons tool setup did not configure the path to Visual Studio, disabling WiX bootstrapper")
     Return()
 
-# Need to do this in order to get scons to translate path separators into native format
-buildDir = env.Dir("$BUILD_DIR").path
+# Get relative path from subfolders (BA / wxs) to build folder
 buildAbsDir = env.Dir("$BUILD_DIR").abspath
-full_version = env['MONGO_VERSION'].partition('-')[0]
-serverMsi = buildAbsDir + "\\msi\\" + env['SERVER_DIST_BASENAME'] + ".msi"
-serverExe = env['SERVER_DIST_BASENAME']
-outDir = buildDir + "\\bootstrapper\\"
+srcAbsDir = Dir('.').srcnode().abspath
+outDir = os.path.relpath(buildAbsDir, srcAbsDir)
+outDir = "..\\" + outDir + "\\bootstrapper\\"
 objDir = outDir + "obj\\"
 
+serverMsi = buildAbsDir + "\\msi\\" + env['SERVER_DIST_BASENAME'] + ".msi"
+serverExe = env['SERVER_DIST_BASENAME']
+
 # major version is the x.y, not the x.y.z
+full_version = env['MONGO_VERSION'].partition('-')[0]
 major_version = full_version
 mv = major_version.split('.')
 major_version = "%s.%s" % (mv[0], mv[1])
@@ -38,7 +40,6 @@ env['ENV']['MongoDBVersion'] = full_version
 env['ENV']['MongoDBMajorVersion'] = major_version
 env['ENV']['MongoMsi'] = serverMsi
 # Force output paths in all MSBuild flavours
-# env['ENV']['BaseIntermediateOutputPath'] = ''
 env['ENV']['OutputPath'] = outDir
 env['ENV']['IntermediateOutputPath'] = objDir
 env['ENV']['OutDir'] = outDir
@@ -46,7 +47,7 @@ env['ENV']['IntDir'] = objDir
 env['ENV']['OutputDirectory'] = outDir
 env['ENV']['IntermediateDirectory'] = objDir
 env['ENV']['BundleOutputName'] = serverExe
-#env['ENV']['RunWixToolsOutOfProc'] = 'true'
+env['ENV']['RunWixToolsOutOfProc'] = 'true'
 
 sources = ["bootstrapper.sln"]
 exe = "$BUILD_DIR/bootstrapper/${SERVER_DIST_BASENAME}.exe"
