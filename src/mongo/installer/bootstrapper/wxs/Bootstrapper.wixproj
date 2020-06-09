@@ -6,6 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>122b5a73-8be8-4f47-bd14-a4011fee6854</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
+    <OutputName Condition="'$(BundleOutputName)'!=''">$(BundleOutputName)</OutputName>
     <OutputName Condition="'$(OutputName)'==''">Bootstrapper</OutputName>
     <OutputType>Bundle</OutputType>
     <Name>Bootstrapper</Name>
