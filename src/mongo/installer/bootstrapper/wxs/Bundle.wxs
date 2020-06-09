@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">  
+  <Bundle Name="MongoDB Suite $(env.MongoDBMajorVersion)" Version="$(env.MongoDBVersion)" Manufacturer="MongoDB Inc." UpgradeCode="122b5a73-8be8-4f47-bd14-a4011fee6854">
+    
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload Name="BootstrapperCore.config" SourceFile="$(var.MongoDB.Bootstrapper.BA.ProjectDir)MongoDB.Bootstrapper.BA.BootstrapperCore.config"/>
+      <Payload SourceFile="$(var.MongoDB.Bootstrapper.BA.TargetPath)"/>
+    </BootstrapperApplicationRef>
+
+    <Variable Name="INSTALL_FOLDER" Value="[ProgramFiles64Folder]MongoDB\" Type="string" Persisted="yes" bal:Overridable="yes"/>
+    <Variable Name="MONGODB_UPDATE_FEED" Value="http://wixtoolset.org/releases/feeds/wix3-9.feed" Hidden="yes" />
+    
+    <!-- Package and feature selection -->
+    <Variable Name="INSTALL_SERVER" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_SERVER" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_CLIENT" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_MONITORINGTOOLS" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_IMPORTEXPORTTOOLS" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_ROUTER" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_SERVER_MISCELLANEOUSTOOLS" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    
+    <Variable Name="INSTALL_COMPASS" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>
+    <Variable Name="INSTALL_TOOLS" Value="1" Persisted="yes" Type="numeric" bal:Overridable="yes"/>    
+
+    <!-- Server parameters -->
+    <Variable Name="MONGO_SERVICE_INSTALL" Value="0" Type="numeric" Persisted="yes" bal:Overridable="yes"/>
+    <Variable Name="MONGO_SERVICE_ACCOUNT_TYPE" Value="ServiceLocalNetwork" Type="string" Persisted="yes" bal:Overridable="yes" />
+    <Variable Name="MONGO_SERVICE_NAME" Value="MongoDB" Type="string" Persisted="yes" bal:Overridable="yes" />
+    <Variable Name="MONGO_SERVICE_ACCOUNT_DOMAIN" Value="." Type="string" Persisted="yes" bal:Overridable="yes" />
+    <Variable Name="MONGO_SERVICE_ACCOUNT_NAME" Value="MongoDB" Type="string" Persisted="yes" bal:Overridable="yes" />
+    <Variable Name="MONGO_SERVICE_ACCOUNT_PASSWORD" Value="" Hidden="yes" Type="string" Persisted="no" bal:Overridable="yes"/>
+    <Variable Name="MONGO_DATA_PATH" Value="[INSTALL_FOLDER]Server\$(env.MongoDBMajorVersion)\bin\data" Type="string" Persisted="yes" bal:Overridable="yes"/>
+    <Variable Name="MONGO_LOG_PATH" Value="[INSTALL_FOLDER]Server\$(env.MongoDBMajorVersion)\bin\log" Type="string" Persisted="yes" bal:Overridable="yes"/>
+
+    <Chain DisableSystemRestore="yes" ParallelCache="yes">
+      <PackageGroupRef Id="NetFx40Web"/>
+
+      <MsiPackage SourceFile="$(env.MongoMsi)" Id="MongoDbServer" InstallCondition="INSTALL_SERVER = 1" EnableFeatureSelection="yes">
+        <MsiProperty Name="INSTALLLOCATION" Value="[INSTALL_FOLDER]Server\$(env.MongoDBMajorVersion)"/>
+        <MsiProperty Name="SHOULD_INSTALL_COMPASS" Value="0"/>
+        <MsiProperty Name="MONGO_SERVICE_INSTALL" Value="[MONGO_SERVICE_INSTALL]"/>
+        <MsiProperty Name="MONGO_SERVICE_ACCOUNT_TYPE" Value="[MONGO_SERVICE_ACCOUNT_TYPE]"/>
+        <MsiProperty Name="MONGO_SERVICE_NAME" Value="[MONGO_SERVICE_NAME]"/>
+        <MsiProperty Name="MONGO_SERVICE_ACCOUNT_DOMAIN" Value="[MONGO_SERVICE_ACCOUNT_DOMAIN]"/>
+        <MsiProperty Name="MONGO_SERVICE_ACCOUNT_NAME" Value="[MONGO_SERVICE_ACCOUNT_NAME]"/>
+        <MsiProperty Name="MONGO_SERVICE_ACCOUNT_PASSWORD" Value="[MONGO_SERVICE_ACCOUNT_PASSWORD]"/>
+        <MsiProperty Name="MONGO_DATA_PATH" Value="[MONGO_DATA_PATH]"/>
+        <MsiProperty Name="MONGO_LOG_PATH" Value="[MONGO_LOG_PATH]"/>
+      </MsiPackage>
+    </Chain>
+  </Bundle>
+</Wix>

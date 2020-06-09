@@ -95,6 +95,7 @@
     <Property Id="ARPPRODUCTICON" Value="MongoDBIcon" />
     <Property Id="ARPHELPLINK" Value="http://www.mongodb.org/" />
     <Property Id="ARPURLINFOABOUT" Value="http://www.mongodb.org/" />
+	<SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLLOCATION]" Sequence="execute" Before="InstallInitialize"/>
 
     <Icon Id="MongoDBIcon" SourceFile="$(var.ProjectDir)Installer_Icon_32x32.ico" />
     <Binary Id="MongoDBIconBinary" SourceFile="$(var.ProjectDir)Installer_Icon_32x32.ico" />

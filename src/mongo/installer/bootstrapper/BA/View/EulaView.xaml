@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="MongoDB.Bootstrapper.BA.View.EulaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="341" d:DesignWidth="634">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml"/>
+    </UserControl.Resources>
+
+    <DockPanel IsEnabled="{Binding IsValidating, Converter={StaticResource InverseBooleanConverter}}" Focusable="False">
+        <!-- Buttons strip -->
+        <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+            <Button DockPanel.Dock="Right" IsDefault="True" Command="NavigationCommands.NextPage" Content="Accept" />
+            <Button DockPanel.Dock="Left" Command="ApplicationCommands.Stop" Content="Decline" HorizontalAlignment="Left" />
+        </DockPanel>
+        <ProgressBar DockPanel.Dock="Bottom" Style="{StaticResource ValidationProgressBar}" IsIndeterminate="{Binding IsValidating}"/>
+
+        <!-- License -->
+        <Border DockPanel.Dock="Top" BorderBrush="{StaticResource WindowFrameBackgrdBrush}"  BorderThickness="2"  Margin="0,4,0,11" Background="White" >
+            <RichTextBox Grid.Row="0" Background="Transparent" Margin="6,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible" Loaded="RichTextBox_Loaded" />
+        </Border>
+    </DockPanel>
+</UserControl>

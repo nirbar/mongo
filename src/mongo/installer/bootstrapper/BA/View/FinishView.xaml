@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MongoDB.Bootstrapper.BA.View.FinishView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="341" d:DesignWidth="634">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml"/>
+    </UserControl.Resources>
+
+
+    <DockPanel IsEnabled="{Binding IsValidating, Converter={StaticResource InverseBooleanConverter}}" Focusable="False">
+        <!-- Buttons strip -->
+        <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+            <Button DockPanel.Dock="Right" Command="{Binding FinishViewModel.RebootCommand}" Visibility="{Binding FinishViewModel.RebootEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Content="Reboot" />
+            <Button DockPanel.Dock="Right" Command="ApplicationCommands.Stop" Content="Close" HorizontalAlignment="Right" />
+        </DockPanel>
+        <ProgressBar DockPanel.Dock="Bottom" Style="{StaticResource ValidationProgressBar}" IsIndeterminate="{Binding IsValidating}"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- Complete -->
+            <TextBlock VerticalAlignment="Top" Grid.Row="0" FontSize="14" Text="{Binding FinishViewModel.CompleteText}" />
+
+        </Grid>
+    </DockPanel>
+</UserControl>

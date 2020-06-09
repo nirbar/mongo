@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="MongoDB.Bootstrapper.BA.View.InstallLocationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="341" d:DesignWidth="634">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml"/>
+    </UserControl.Resources>
+
+    <DockPanel IsEnabled="{Binding IsValidating, Converter={StaticResource InverseBooleanConverter}}" Focusable="False">
+        <!-- Buttons strip -->
+        <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+            <Button DockPanel.Dock="Right" IsDefault="True" Command="NavigationCommands.NextPage" Content="Next" />
+            <Button DockPanel.Dock="Right" Command="NavigationCommands.PreviousPage" Content="Back" />
+            <Button DockPanel.Dock="Left" Command="ApplicationCommands.Stop" Content="Cancel" HorizontalAlignment="Left" />
+        </DockPanel>
+        <ProgressBar DockPanel.Dock="Bottom" Style="{StaticResource ValidationProgressBar}" IsIndeterminate="{Binding IsValidating}"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Install folder" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" VerticalAlignment="Center" ToolTip="Set installation target folder" Text="{Binding VariablesViewModel.INSTALL_FOLDER, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Margin="14,0,0,0" Content="Browse" Click="browse_Click"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="{Binding VariablesViewModel.INSTALL_SERVER, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Logs folder" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Text="{Binding VariablesViewModel.MONGO_LOG_PATH, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Margin="14,0,0,0" Content="Browse" Click="browseLogs_Click"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Data folder" VerticalAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding VariablesViewModel.MONGO_DATA_PATH, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Margin="14,0,0,0" Content="Browse" Click="browseData_Click"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

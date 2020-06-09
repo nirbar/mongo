@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="MongoDB.Bootstrapper.BA.View.HelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Styles.xaml"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical">
+            <TextBlock TextWrapping="Wrap">
+                /install | /repair | /uninstall | /layout [directory] - installs, repairs, uninstalls or
+                downloads a complete local copy of the bundle in directory. Install is the default.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="0,10">
+                /passive - Displays minimal UI with no prompts.<LineBreak/>
+                /quiet - Displays no UI and no prompts.
+                By default UI and all prompts are displayed.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="0,10">
+                /norestart - Suppress any attempts to restart. By default UI will prompt before restart.<LineBreak/>
+                /log log.txt - Logs to a specific file. By default a log file is created in %TEMP%.<LineBreak/>
+                /? - Show this help screen
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Margin="0,10">
+                INSTALL_FOLDER=C:\MongoDB
+            </TextBlock>
+        </StackPanel>
+        <!-- Close -->
+        <Button Grid.Row="1" IsDefault="True" HorizontalAlignment="Right" 
+            Command="{Binding Close}"
+            Content="Close" />
+    </Grid>
+</UserControl>
