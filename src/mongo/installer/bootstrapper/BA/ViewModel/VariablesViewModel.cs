@@ -168,6 +168,11 @@ namespace MongoDB.Bootstrapper.BA.ViewModel
                     domain = engine_.FormatStringEx(engine_.StringVariables["MONGO_SERVICE_ACCOUNT_DOMAIN"]);
                 }
 
+                if (string.IsNullOrWhiteSpace(domain) && string.IsNullOrWhiteSpace(user))
+                {
+                    return "";
+                }
+
                 return $"{domain ?? ""}\\{user ?? ""}";
             }
             set
@@ -191,16 +196,16 @@ namespace MongoDB.Bootstrapper.BA.ViewModel
             int i = fullName.IndexOf('@');
             if ((i > 0) && (i < (fullName.Length - 1)))
             {
-                domain = fullName.Substring(i + 1);
-                name = fullName.Substring(0, i);
+                domain = fullName.Substring(i + 1).Trim('\\', '@');
+                name = fullName.Substring(0, i).Trim('\\', '@');
                 return;
             }
 
             i = fullName.IndexOf('\\');
             if ((i > 0) && (i < (fullName.Length - 1)))
             {
-                domain = fullName.Substring(0, i);
-                name = fullName.Substring(i + 1);
+                domain = fullName.Substring(0, i).Trim('\\', '@');
+                name = fullName.Substring(i + 1).Trim('\\', '@');
                 return;
             }
         }
